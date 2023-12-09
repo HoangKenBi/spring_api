@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product and Sale Details</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-5">
+    <h1>Product List</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Description</th>
+                <th>Date of Manufacture</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody id="productTableBody">
+            <!-- Product data will be dynamically added here -->
+        </tbody>
+    </table>
+
+    <h1>Sale List</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>SINo</th>
+                <th>Salesman ID</th>
+                <th>Product ID</th>
+                <th>Salesman Name</th>
+                <th>Date of Sale</th>
+            </tr>
+        </thead>
+        <tbody id="saleTableBody">
+            <!-- Sale data will be dynamically added here -->
+        </tbody>
+    </table>
+</div>
+
+<!-- jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    // Fetch product data from the API and populate the table
+    $.ajax({
+        url: 'http://localhost:8080/api/v1/products/getAll',
+        method: 'GET',
+        success: function(products) {
+            var productTableBody = $('#productTableBody');
+            products.forEach(function(product) {
+                productTableBody.append(`
+                    <tr>
+                        <td>${product.prodId}</td>
+                        <td>${product.prodName}</td>
+                        <td>${product.description}</td>
+                        <td>${product.dateOfManf}</td>
+                        <td>${product.price}</td>
+                    </tr>
+                `);
+            });
+        }
+    });
+
+    // Fetch sale data from the API and populate the table
+    $.ajax({
+        url: 'http://localhost:8080/api/v1/sales/getAll',
+        method: 'GET',
+        success: function(sales) {
+            var saleTableBody = $('#saleTableBody');
+            sales.forEach(function(sale) {
+                saleTableBody.append(`
+                    <tr>
+                        <td>${sale.sino}</td>
+                        <td>${sale.salesmanID}</td>
+                        <td>${sale.prodID}</td>
+                        <td>${sale.salesmanName}</td>
+                        <td>${sale.dos}</td>
+                    </tr>
+                `);
+            });
+        }
+    });
+</script>
+
+</body>
+</html>
